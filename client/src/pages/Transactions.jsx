@@ -1,14 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import toast from 'react-hot-toast';
-import {
-  FiSearch,
-  FiDownload,
-  FiFilter,
-  FiArrowUpRight,
-  FiArrowDownRight,
-  FiChevronLeft,
-  FiChevronRight,
-} from 'react-icons/fi';
+import { FiSearch, FiDownload } from 'react-icons/fi';
+import { FaHistory, FaExchangeAlt } from 'react-icons/fa'; // Safe Font Awesome options
 import api from '../api';
 import { useAuth } from '../context/AuthContext';
 import {

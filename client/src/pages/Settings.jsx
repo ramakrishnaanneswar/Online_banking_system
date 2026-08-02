@@ -1,15 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import toast from 'react-hot-toast';
-import {
-  FiMoon,
-  FiBell,
-  FiGlobe,
-  FiShield,
-  FiDollarSign,
-  FiSmartphone,
-  FiLock,
-  FiEye,
-} from 'react-icons/fi';
+import { FiUser, FiLock } from 'react-icons/fi';
+import { FaCog } from 'react-icons/fa'; // Alternate settings element
+
 import { useAuth } from '../context/AuthContext';
 
 const Settings = () => {

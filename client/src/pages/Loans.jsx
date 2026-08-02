@@ -1,10 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import toast from 'react-hot-toast';
-import {
-  FiPlus,
-  FiCalculator,
-  FiArrowDownRight,
-} from 'react-icons/fi';
+import { FaCalculator } from 'react-icons/fa';
 import api from '../api';
 import { formatINR, formatDate, loanTypeLabel } from '../utils/format';
 import Spinner from '../components/common/Spinner';
@@ -146,7 +142,7 @@ const Loans = () => {
           My Loans
         </button>
         <button className={`tab ${activeTab === 'calculator' ? 'active' : ''}`} onClick={() => setActiveTab('calculator')}>
-          <FiCalculator /> EMI Calculator
+          <FiPercent /> EMI Calculator
         </button>
       </div>
 
@@ -300,7 +296,7 @@ const Loans = () => {
       {activeTab === 'calculator' && (
         <div className="grid grid-2">
           <div className="card">
-            <h3 className="card-title mb-2"><FiCalculator /> EMI Calculator</h3>
+            <h3 className="card-title mb-2"><FiPercent /> EMI Calculator</h3>
             <p className="card-subtitle mb-3">Calculate your monthly EMI before applying</p>
             <form onSubmit={handleCalculate}>
               <div className="form-group">

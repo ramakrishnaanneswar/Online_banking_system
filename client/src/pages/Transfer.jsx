@@ -203,7 +203,7 @@ const Transfer = () => {
           <FiUsers /> Beneficiary Transfer
         </button>
         <button className={`tab ${activeTab === 'other' ? 'active' : ''}`} onClick={() => setActiveTab('other')}>
-          <FiBuilding /> Other Account
+          <FiHome /> Other Account
         </button>
       </div>
 

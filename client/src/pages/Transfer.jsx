@@ -1,13 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import toast from 'react-hot-toast';
-import {
-  FiArrowUpRight,
-  FiUserPlus,
-  FiTrash2,
-  FiUsers,
-  FiUser,
-  FiBuilding,
-} from 'react-icons/fi';
+import { FaBuilding } from 'react-icons/fa';
 import api from '../api';
 import { formatINR, accountTypeLabel } from '../utils/format';
 import Spinner from '../components/common/Spinner';

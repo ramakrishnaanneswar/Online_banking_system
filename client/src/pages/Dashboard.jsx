@@ -1,15 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import toast from 'react-hot-toast';
-import {
-  FiArrowUpRight,
-  FiArrowDownRight,
-  FiTrendingUp,
-  FiTrendingDown,
-  FiCreditCard,
-  FiWallet,
-  FiArrowRight,
-} from 'react-icons/fi';
+import { FaWallet } from 'react-icons/fa';
 import {
   PieChart,
   Pie,

@@ -74,25 +74,19 @@ app.use((err, req, res, next) => {
   });
 });
 
-// Start server (for local development)
-const startServer = async () => {
-  try {
-    await connectDB();
-    
-    // Only start listening if not in Vercel/serverless environment
-    if (process.env.VERCEL !== '1') {
+// Start server (for local development only)
+if (process.env.VERCEL !== '1') {
+  connectDB()
+    .then(() => {
       app.listen(PORT, () => {
         console.log(`🚀 Server running on http://localhost:${PORT}`);
         console.log(`📚 API Documentation available at http://localhost:${PORT}/`);
       });
-    }
-  } catch (error) {
-    console.error('❌ Failed to start server:', error);
-    process.exit(1);
-  }
-};
-
-startServer();
+    })
+    .catch((error) => {
+      console.error('❌ MongoDB Connection Error:', error.message);
+    });
+}
 
 // Export app for Vercel serverless functions
 export default app;

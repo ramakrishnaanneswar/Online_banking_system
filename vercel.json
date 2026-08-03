@@ -6,7 +6,7 @@
       "use": "@vercel/static-build",
       "config": {
         "distDir": "dist",
-        "rootDirectory": "client"
+        "cwd": "client"
       }
     },
     {
@@ -21,7 +21,7 @@
     },
     {
       "src": "/(.*)",
-      "dest": "/client/dist/$1"
+      "dest": "client/dist/$1"
     }
   ],
   "env": {

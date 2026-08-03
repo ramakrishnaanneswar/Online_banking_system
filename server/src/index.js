@@ -74,10 +74,25 @@ app.use((err, req, res, next) => {
   });
 });
 
-// Start server
-connectDB().then(() => {
-  app.listen(PORT, () => {
-    console.log(`🚀 Server running on http://localhost:${PORT}`);
-    console.log(`📚 API Documentation available at http://localhost:${PORT}/`);
-  });
-});
+// Start server (for local development)
+const startServer = async () => {
+  try {
+    await connectDB();
+    
+    // Only start listening if not in Vercel/serverless environment
+    if (process.env.VERCEL !== '1') {
+      app.listen(PORT, () => {
+        console.log(`🚀 Server running on http://localhost:${PORT}`);
+        console.log(`📚 API Documentation available at http://localhost:${PORT}/`);
+      });
+    }
+  } catch (error) {
+    console.error('❌ Failed to start server:', error);
+    process.exit(1);
+  }
+};
+
+startServer();
+
+// Export app for Vercel serverless functions
+export default app;

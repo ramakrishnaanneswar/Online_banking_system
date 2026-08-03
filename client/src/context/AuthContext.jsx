@@ -22,18 +22,19 @@ export const AuthProvider = ({ children }) => {
   useEffect(() => {
     if (token) {
       // Fetch fresh user data
-      api
-        .get('/auth/me')
-        .then((res) => {
+      const fetchUser = async () => {
+        try {
+          const res = await api.get('/auth/me');
           setUser(res.data.data);
           localStorage.setItem('user', JSON.stringify(res.data.data));
-        })
-        .catch(() => {
+        } catch (error) {
           localStorage.removeItem('token');
           localStorage.removeItem('user');
           setUser(null);
           setToken(null);
-        });
+        }
+      };
+      fetchUser();
     }
   }, [token]);
 

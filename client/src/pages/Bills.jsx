@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import toast from 'react-hot-toast';
-import { FiZap, FiDroplet, FiFlame, FiWifi, FiPlus, FiCheckCircle } from 'react-icons/fi';
+import { FiZap, FiDroplet, FiWifi, FiPlus, FiCheckCircle } from 'react-icons/fi';
 import api from '../api';
 import { formatINR, formatDate, billTypeLabel } from '../utils/format';
 import Spinner from '../components/common/Spinner';
@@ -8,7 +8,7 @@ import Spinner from '../components/common/Spinner';
 const BILL_TYPES = [
   { type: 'electricity', icon: FiZap, color: '#f59e0b', bg: '#fffbeb' },
   { type: 'water', icon: FiDroplet, color: '#3b82f6', bg: '#eff6ff' },
-  { type: 'gas', icon: FiFlame, color: '#ef4444', bg: '#fef2f2' },
+  { type: 'gas', icon: null, color: '#ef4444', bg: '#fef2f2', emoji: '🔥' },
   { type: 'internet', icon: FiWifi, color: '#10b981', bg: '#ecfdf5' },
 ];
 
@@ -95,6 +95,7 @@ const Bills = () => {
   const getBillIcon = (type) => {
     const item = BILL_TYPES.find((b) => b.type === type);
     if (!item) return null;
+    if (item.emoji) return <span style={{ fontSize: '20px' }}>{item.emoji}</span>;
     const Icon = item.icon;
     return <Icon style={{ color: item.color }} />;
   };
@@ -130,7 +131,7 @@ const Bills = () => {
         <div className="card mb-3">
           <h3 className="card-title mb-2">Fetch a New Bill</h3>
           <div className="grid grid-4 mb-2" style={{ gap: '12px' }}>
-            {BILL_TYPES.map(({ type, icon: Icon, color, bg }) => (
+            {BILL_TYPES.map(({ type, icon: Icon, color, bg, emoji }) => (
               <button
                 key={type}
                 className="btn btn-outline btn-sm"
@@ -141,7 +142,7 @@ const Bills = () => {
                 }}
                 onClick={() => handleBillTypeSelect(type)}
               >
-                <Icon /> {billTypeLabel(type)}
+                {emoji ? <span style={{ fontSize: '16px' }}>{emoji}</span> : <Icon />} {billTypeLabel(type)}
               </button>
             ))}
           </div>

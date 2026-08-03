@@ -3,6 +3,14 @@ import { Link } from 'react-router-dom';
 import toast from 'react-hot-toast';
 import { FaWallet } from 'react-icons/fa';
 import {
+  FiArrowUpRight,
+  FiArrowDownRight,
+  FiCreditCard,
+  FiTrendingUp,
+  FiTrendingDown,
+  FiArrowRight,
+} from 'react-icons/fi';
+import {
   PieChart,
   Pie,
   Cell,
@@ -111,7 +119,7 @@ const Dashboard = () => {
 
         <div className="stat-card">
           <div className="stat-icon gold">
-            <FiWallet />
+            <FaWallet />
           </div>
           <div className="stat-label">Active Cards</div>
           <div className="stat-amount">{data?.activeCards || 0}</div>

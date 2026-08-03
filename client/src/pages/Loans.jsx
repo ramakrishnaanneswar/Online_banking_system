@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import toast from 'react-hot-toast';
 import { FaCalculator } from 'react-icons/fa';
+import { FiPlus, FiPercent, FiArrowDownRight } from 'react-icons/fi';
 import api from '../api';
 import { formatINR, formatDate, loanTypeLabel } from '../utils/format';
 import Spinner from '../components/common/Spinner';

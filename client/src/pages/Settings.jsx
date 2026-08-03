@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import toast from 'react-hot-toast';
-import { FiUser, FiLock } from 'react-icons/fi';
+import { FiUser, FiLock, FiMoon, FiBell, FiShield, FiSmartphone } from 'react-icons/fi';
 import { FaCog } from 'react-icons/fa'; // Alternate settings element
 
 import { useAuth } from '../context/AuthContext';

@@ -5,7 +5,7 @@ dotenv.config();
 
 const connectDB = async () => {
   try {
-    const conn = await mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/online_banking');
+    const conn = await mongoose.connect(process.env.MONGODB_URI || 'mongodb+srv://ramakrishna:ramakrishna@cluster0.niueso2.mongodb.net/Online_banking_system?retryWrites=true&w=majority&appName=Cluster0');
     console.log(`✅ MongoDB Connected: ${conn.connection.host}`);
     console.log(`📦 Database: ${conn.connection.name}`);
     return conn;

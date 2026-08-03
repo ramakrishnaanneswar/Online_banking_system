@@ -1,22 +1,26 @@
-import axios from 'axios';
+import axios from "axios";
 
-// Use relative URL for production (Vercel) and localhost for development
-const API_URL = import.meta.env.PROD ? '/api' : 'http://localhost:3100/api';
-
+// API URL from environment variable
+const API_URL =
+  import.meta.env.VITE_API_URL || "http://localhost:3100/api";
+console.log("API URL =", API_URL);
 const api = axios.create({
   baseURL: API_URL,
   headers: {
-    'Content-Type': 'application/json',
+    "Content-Type": "application/json",
   },
+  withCredentials: true,
 });
 
-// Add token to requests
+// Add JWT token to every request
 api.interceptors.request.use(
   (config) => {
-    const token = localStorage.getItem('token');
+    const token = localStorage.getItem("token");
+
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }
+
     return config;
   },
   (error) => Promise.reject(error)
@@ -27,9 +31,10 @@ api.interceptors.response.use(
   (response) => response,
   (error) => {
     if (error.response?.status === 401) {
-      localStorage.removeItem('token');
-      localStorage.removeItem('user');
+      localStorage.removeItem("token");
+      localStorage.removeItem("user");
     }
+
     return Promise.reject(error);
   }
 );

@@ -32,6 +32,7 @@ pids
 client/node_modules/.vite/
 
 # MongoDB
+data/
 data/db/
 
 # OS generated files

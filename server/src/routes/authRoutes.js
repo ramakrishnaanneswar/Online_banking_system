@@ -260,5 +260,10 @@ router.put('/change-password', protect, async (req, res) => {
     res.status(500).json({ success: false, message: error.message });
   }
 });
-
+router.get("/test", (req, res) => {
+  res.json({
+    success: true,
+    message: "Auth route is working!"
+  });
+});
 export default router;

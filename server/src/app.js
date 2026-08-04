@@ -42,6 +42,23 @@ app.use(morgan('dev'));
 
 // API Routes
 app.use('/api/auth', authRoutes);
+console.log("✅ Auth routes mounted");
+
+app._router.stack.forEach((layer) => {
+  if (layer.route) {
+    console.log(layer.route.path, Object.keys(layer.route.methods));
+  } else if (layer.name === "router") {
+    layer.handle.stack.forEach((r) => {
+      if (r.route) {
+        console.log(
+          "AUTH:",
+          r.route.path,
+          Object.keys(r.route.methods)
+        );
+      }
+    });
+  }
+});
 app.use('/api/accounts', accountRoutes);
 app.use('/api/transfer', transferRoutes);
 app.use('/api/transactions', transactionRoutes);

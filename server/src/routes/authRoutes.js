@@ -17,7 +17,7 @@ router.get("/test", (req, res) => {
     message: "Test Working"
   });
 });
-
+console.log("Login route loaded");
 router.post("/login", (req, res) => {
   res.json({
     success: true,

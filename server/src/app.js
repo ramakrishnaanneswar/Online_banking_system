@@ -2,6 +2,7 @@ import express from 'express';
 import cors from 'cors';
 import morgan from 'morgan';
 import dotenv from 'dotenv';
+// Force clean Vercel rebuild — route mount verification
 import path from 'path';
 import { fileURLToPath } from 'url';
 

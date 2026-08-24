@@ -2,6 +2,8 @@ import express from 'express';
 import cors from 'cors';
 import morgan from 'morgan';
 import dotenv from 'dotenv';
+import path from 'path';
+import { fileURLToPath } from 'url';
 
 import authRoutes from './routes/authRoutes.js';
 import accountRoutes from './routes/accountRoutes.js';
@@ -16,6 +18,12 @@ import dashboardRoutes from './routes/dashboardRoutes.js';
 dotenv.config();
 
 const app = express();
+
+// Resolve the built frontend (client/dist) for static serving.
+// Works in local dev (server/src -> ../../client/dist resolves via this path)
+// and on Vercel/Render where the repo is uploaded as-is.
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+const clientDist = path.resolve(__dirname, '../../client/dist');
 
 // Middleware
 const allowedOrigins = [
@@ -80,27 +88,21 @@ app.use('/api/reports', reportRoutes);
 app.use('/api/dashboard', dashboardRoutes);
 
 // Health check
-app.get('/', (req, res) => {
-  res.json({
-    success: true,
-    message: 'Online Banking API is running',
-    version: '1.0.0',
-    endpoints: [
-      '/api/auth',
-      '/api/accounts',
-      '/api/transfer',
-      '/api/transactions',
-      '/api/cards',
-      '/api/loans',
-      '/api/bills',
-      '/api/reports',
-      '/api/dashboard',
-    ],
-  });
-});
-
 app.get('/api/health', (req, res) => {
   res.json({ success: true, status: 'UP', timestamp: new Date().toISOString() });
+});
+
+// Serve the built React frontend (client/dist) as static files.
+// This makes a single Express app serve BOTH the API and the SPA,
+// which works locally, on Vercel (node function) and on Render.
+app.use(express.static(clientDist));
+
+// SPA fallback — send unknown non-API routes to the React app (client-side routing)
+app.get('*', (req, res, next) => {
+  if (req.path.startsWith('/api/')) return next();
+  res.sendFile(path.join(clientDist, 'index.html'), (err) => {
+    if (err) next();
+  });
 });
 
 // 404 handler

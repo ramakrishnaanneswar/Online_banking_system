@@ -22,6 +22,7 @@ const allowedOrigins = [
   "http://localhost:5173",
   "https://online-banking-system-m51f.vercel.app",
   "https://online-banking-system-m51f-git-main-rama-krishna-s-projects.vercel.app",
+  "https://online-banking-system-khaki.vercel.app",
 ];
 
 // Allow additional origins from CLIENT_URL env (Render / custom domains)

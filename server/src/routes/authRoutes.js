@@ -188,8 +188,8 @@ router.post('/forgot-password', async (req, res) => {
       message: 'OTP sent to your email',
     });
   } catch (error) {
-    console.error('❌ Failed to send OTP email:', error.message);
-    res.status(500).json({ success: false, message: 'Failed to send OTP email. Please try again later.' });
+    console.error('❌ Failed to send OTP email:', error);
+    res.status(500).json({ success: false, message: error.message || 'Failed to send OTP email. Please try again later.' });
   }
 });
 

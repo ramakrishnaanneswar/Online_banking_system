@@ -6,6 +6,7 @@
   "type": "module",
   "scripts": {
     "build": "cd client && npm install && npm run build",
+    "start": "node server/src/index.js",
     "dev": "concurrently \"npm run dev:server\" \"npm run dev:client\"",
     "dev:client": "cd client && npm run dev",
     "dev:server": "cd server && npm run dev"
@@ -18,7 +19,8 @@
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.5.1",
     "morgan": "^1.10.0",
-    "nanoid": "^5.0.7"
+    "nanoid": "^5.0.7",
+    "nodemailer": "^6.9.14"
   },
   "devDependencies": {
     "concurrently": "^8.2.2"

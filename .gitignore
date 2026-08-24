@@ -7,6 +7,9 @@ server/node_modules/
 .env
 server/.env
 client/.env
+.env.local
+.env.production
+!*.example
 
 # Build outputs
 client/dist/

@@ -33,10 +33,6 @@ const Login = () => {
     }
   };
 
-  const fillDemo = (email, password = 'password123') => {
-    setFormData({ email, password });
-  };
-
   return (
     <div className="auth-page">
       <div className="auth-left">
@@ -139,19 +135,6 @@ const Login = () => {
 
           <div className="auth-links">
             Don't have an account? <Link to="/register">Create one</Link>
-          </div>
-
-          <div className="demo-credentials">
-            <p>🔑 Demo Credentials</p>
-            <div className="demo-account" onClick={() => fillDemo('rahul@demo.com')}>
-              👤 <strong>User:</strong> rahul@demo.com / password123
-            </div>
-            <div className="demo-account" onClick={() => fillDemo('priya@demo.com')}>
-              👤 <strong>User:</strong> priya@demo.com / password123
-            </div>
-            <div className="demo-account" onClick={() => fillDemo('admin@demo.com', 'admin123')}>
-              🛡️ <strong>Admin:</strong> admin@demo.com / admin123
-            </div>
           </div>
         </div>
       </div>

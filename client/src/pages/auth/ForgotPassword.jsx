@@ -7,7 +7,6 @@ import Spinner from '../../components/common/Spinner';
 const ForgotPassword = () => {
   const [step, setStep] = useState(1); // 1: email, 2: OTP, 3: new password
   const [email, setEmail] = useState('');
-  const [demoOTP, setDemoOTP] = useState('');
   const [otp, setOtp] = useState(['', '', '', '', '', '']);
   const [newPassword, setNewPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
@@ -35,8 +34,7 @@ const ForgotPassword = () => {
 
     setSubmitting(true);
     try {
-      const res = await forgotPassword(email);
-      setDemoOTP(res.data?.otp || '123456');
+      await forgotPassword(email);
       toast.success('OTP sent to your email!');
       setStep(2);
     } catch (error) {
@@ -103,8 +101,7 @@ const ForgotPassword = () => {
   const handleResendOTP = async () => {
     setResendTimer(30);
     try {
-      const res = await forgotPassword(email);
-      setDemoOTP(res.data?.otp || '123456');
+      await forgotPassword(email);
       toast.success('New OTP sent!');
     } catch (error) {
       toast.error('Failed to resend OTP');
@@ -242,13 +239,6 @@ const ForgotPassword = () => {
                     aria-label={`Digit ${index + 1}`}
                   />
                 ))}
-              </div>
-
-              <div className="demo-credentials mb-3">
-                <p>💡 Demo OTP</p>
-                <div className="demo-account">
-                  Your OTP is: <strong>{demoOTP || '123456'}</strong>
-                </div>
               </div>
 
               <button type="submit" className="btn btn-primary" disabled={otp.join('').length !== 6 || submitting}>

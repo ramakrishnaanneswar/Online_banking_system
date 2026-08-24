@@ -1,5 +1,7 @@
 import express from 'express';
 import jwt from 'jsonwebtoken';
+import nodemailer from 'nodemailer';
+import { randomInt } from 'node:crypto';
 import User from '../models/User.js';
 import { protect } from '../middleware/auth.js';
 import dotenv from 'dotenv';
@@ -55,9 +57,68 @@ const generateToken = (id) => {
   });
 };
 
-// Generate OTP (simulation - always 123456 for demo)
+// Generate a cryptographically secure random 6-digit OTP
 const generateOTP = () => {
-  return '123456';
+  return randomInt(100000, 1000000).toString();
+};
+
+// Nodemailer SMTP transporter (works with Gmail SMTP, and any SMTP provider)
+const createTransporter = () => {
+  const port = Number(process.env.SMTP_PORT) || 465;
+  return nodemailer.createTransport({
+    host: process.env.SMTP_HOST || 'smtp.gmail.com',
+    port,
+    secure: process.env.SMTP_SECURE === 'true' || port === 465,
+    auth: {
+      user: process.env.SMTP_USER,
+      pass: process.env.SMTP_PASS,
+    },
+  });
+};
+
+// Send the real OTP to the user's email
+const sendOTPEmail = async (to, otp) => {
+  if (!process.env.SMTP_USER || !process.env.SMTP_PASS) {
+    throw new Error('SMTP credentials are not configured (SMTP_USER / SMTP_PASS)');
+  }
+
+  const transporter = createTransporter();
+  const from = process.env.EMAIL_FROM || `"SecureBank" <${process.env.SMTP_USER}>`;
+
+  await transporter.sendMail({
+    from,
+    to,
+    subject: 'SecureBank - Your Password Reset OTP',
+    text: `Hello,
+
+We received a request to reset your SecureBank account password.
+
+Your One-Time Password (OTP) is: ${otp}
+
+This OTP is valid for 10 minutes. If you did not request this, please ignore this email and contact support.
+
+Regards,
+SecureBank Team`,
+    html: `
+      <div style="font-family: Arial, Helvetica, sans-serif; max-width: 480px; margin: 0 auto; padding: 24px; border: 1px solid #e2e8f0; border-radius: 12px;">
+        <div style="text-align: center; margin-bottom: 20px;">
+          <span style="font-size: 28px;">🏦</span>
+          <h1 style="margin: 4px 0; font-size: 22px; color: #111827;">SecureBank</h1>
+          <p style="margin: 0; color: #6b7280; font-size: 13px;">ONLINE BANKING SYSTEM</p>
+        </div>
+        <p style="color: #374151; font-size: 14px;">Hello,</p>
+        <p style="color: #374151; font-size: 14px;">We received a request to reset your SecureBank account password.</p>
+        <p style="color: #374151; font-size: 14px;">Your One-Time Password (OTP) is:</p>
+        <div style="text-align: center; margin: 24px 0;">
+          <span style="display: inline-block; font-size: 32px; font-weight: 700; letter-spacing: 8px; color: #0f766e; background: #f0fdfa; border: 1px dashed #0f766e; border-radius: 8px; padding: 12px 20px;">${otp}</span>
+        </div>
+        <p style="color: #6b7280; font-size: 13px;">This OTP is valid for <strong>10 minutes</strong>. For your security, please do not share this code with anyone.</p>
+        <p style="color: #6b7280; font-size: 13px;">If you did not request this, please ignore this email or contact SecureBank support.</p>
+        <hr style="border: none; border-top: 1px solid #e2e8f0; margin: 20px 0;" />
+        <p style="color: #9ca3af; font-size: 12px; text-align: center; margin: 0;">Regards,<br/>SecureBank Team</p>
+      </div>
+    `,
+  });
 };
 
 // @route   POST /api/auth/register
@@ -102,7 +163,7 @@ router.post('/register', async (req, res) => {
 
 
 // @route   POST /api/auth/forgot-password
-// @desc    Send OTP for password reset (simulation)
+// @desc    Send OTP for password reset via email
 router.post('/forgot-password', async (req, res) => {
   try {
     const { email } = req.body;
@@ -119,14 +180,16 @@ router.post('/forgot-password', async (req, res) => {
     };
     await user.save();
 
-    // In production, send OTP via email. For demo, return it.
+    // Send the real OTP to the user's registered email
+    await sendOTPEmail(user.email, otp);
+
     res.json({
       success: true,
       message: 'OTP sent to your email',
-      data: { otp, email }, // OTP returned for demo purposes
     });
   } catch (error) {
-    res.status(500).json({ success: false, message: error.message });
+    console.error('❌ Failed to send OTP email:', error.message);
+    res.status(500).json({ success: false, message: 'Failed to send OTP email. Please try again later.' });
   }
 });
 

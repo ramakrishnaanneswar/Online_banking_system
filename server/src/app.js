@@ -24,6 +24,16 @@ const allowedOrigins = [
   "https://online-banking-system-m51f-git-main-rama-krishna-s-projects.vercel.app",
 ];
 
+// Allow additional origins from CLIENT_URL env (Render / custom domains)
+if (process.env.CLIENT_URL) {
+  process.env.CLIENT_URL.split(',').forEach((origin) => {
+    const trimmed = origin.trim();
+    if (trimmed && !allowedOrigins.includes(trimmed)) {
+      allowedOrigins.push(trimmed);
+    }
+  });
+}
+
 app.use(
   cors({
     origin: function (origin, callback) {

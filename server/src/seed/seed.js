@@ -449,7 +449,6 @@ const seedDatabase = async () => {
     console.log('      Email:    admin@demo.com');
     console.log('      Password: admin123');
     console.log('');
-    console.log('   🔐 OTP for demo: 123456');
     console.log('═══════════════════════════════════════════');
 
     await mongoose.disconnect();

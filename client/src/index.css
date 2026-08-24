@@ -437,43 +437,6 @@ h1, h2, h3, h4, h5, h6 {
   text-decoration: underline;
 }
 
-.demo-credentials {
-  margin-top: 24px;
-  padding: 16px;
-  background: var(--gray-50);
-  border-radius: var(--radius-md);
-  border: 1px dashed var(--gray-200);
-}
-
-.demo-credentials p {
-  font-size: 12px;
-  color: var(--gray-500);
-  text-align: center;
-  margin-bottom: 8px;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-}
-
-.demo-account {
-  font-size: 13px;
-  color: var(--gray-600);
-  text-align: center;
-  padding: 8px;
-  border-radius: var(--radius-sm);
-  cursor: pointer;
-  transition: background 0.2s;
-  margin-bottom: 4px;
-}
-
-.demo-account:hover {
-  background: var(--gray-100);
-}
-
-.demo-account strong {
-  color: var(--primary);
-}
-
 .otp-inputs {
   display: flex;
   gap: 8px;

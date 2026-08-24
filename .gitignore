@@ -11,9 +11,8 @@ client/.env
 .env.production
 !*.example
 
-# Build outputs
-client/dist/
-dist/
+# Build outputs (client/dist is committed so the deployed Node function can serve the SPA)
+/dist/
 build/
 
 # Logs

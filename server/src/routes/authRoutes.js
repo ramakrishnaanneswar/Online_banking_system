@@ -1,5 +1,6 @@
 import express from 'express';
 import jwt from 'jsonwebtoken';
+import mongoose from 'mongoose';
 import nodemailer from 'nodemailer';
 import { randomInt } from 'node:crypto';
 import User from '../models/User.js';
@@ -17,8 +18,16 @@ router.post('/login', async (req, res) => {
       return res.status(400).json({ success: false, message: 'Please provide email and password' });
     }
 
-    const user = await User.findOne({ email }).select('+password');
+    // Gracefully handle DB connection issues so the API never returns an empty 500
+    if (mongoose.connection.readyState !== 1) {
+      console.error('MongoDB not connected — login request handled gracefully');
+      return res.status(500).json({
+        success: false,
+        message: 'Unable to process your request right now. Please try again later.',
+      });
+    }
 
+    const user = await User.findOne({ email }).select('+password');
     if (!user) {
       return res.status(401).json({ success: false, message: 'Invalid email or password' });
     }
@@ -167,6 +176,18 @@ router.post('/register', async (req, res) => {
 router.post('/forgot-password', async (req, res) => {
   try {
     const { email } = req.body;
+    if (!email) {
+      return res.status(400).json({ success: false, message: 'Email is required' });
+    }
+
+    // Gracefully handle DB connection issues so the API never returns an empty 500
+    if (mongoose.connection.readyState !== 1) {
+      console.error('MongoDB not connected — forgot-password request handled gracefully');
+      return res.status(500).json({
+        success: false,
+        message: 'Unable to process your request right now. Please try again later.',
+      });
+    }
 
     const user = await User.findOne({ email });
     if (!user) {
